@@ -89,9 +89,17 @@ public protocol PlexServiceRequest: BasePlexRequest {
     func asURLRequest(using token: String?) throws -> URLRequest
 }
 
+public class PlexURLConfiguration {
+    private init() {}
+    static let shared = PlexURLConfiguration()
+
+    var customBaseURL: URL?
+}
+
 public extension PlexServiceRequest {
     func asURLRequest(using token: String?) throws -> URLRequest {
-        let path = "https://plex.tv/\(self.path)"
+        let baseURL = PlexURLConfiguration.shared.customBaseURL ?? URL(string: "https://plex.tv/")!
+        let path = "\(baseURL.absoluteString)\(self.path)"
         guard let url = URL(string: path)?.appendingQueryItems(queryItems ?? []) else {
             throw PlexError.invalidRequest(.invalidURL(path))
         }
