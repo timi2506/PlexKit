@@ -91,9 +91,9 @@ public protocol PlexServiceRequest: BasePlexRequest {
 
 public class PlexURLConfiguration {
     private init() {}
-    static let shared = PlexURLConfiguration()
+    public static let shared = PlexURLConfiguration()
 
-    var customBaseURL: URL?
+    public var customBaseURL: URL?
 }
 
 public extension PlexServiceRequest {
